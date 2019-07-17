@@ -8,5 +8,3 @@ print("-"*30)
 print("-"*30)
 
 print((ilosc_nadgodzin*stawka)*2)
-
-

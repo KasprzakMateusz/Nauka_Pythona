@@ -14,8 +14,8 @@ while len(lotto) < 10:
         else:
             lotto.append(cyfra)
             i += 1
-    except:
-        print("tak nie powinno być :(")
+    except ValueError:
+        print("błąd związany ze zmiennymi")
 
 lotto_wygrane = []
 while len(lotto_wygrane) < 10:
