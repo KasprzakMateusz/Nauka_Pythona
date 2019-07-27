@@ -1,0 +1,24 @@
+from db import connection
+import datetime
+
+print("Kalkulator Twojego Budżetu")
+
+how_many = int(input("Podaj ilość rzeczy które chcesz dodać: "))
+i = 1
+while how_many >= i:
+    cursor = connection.cursor()
+    cursor.execute("CREATE TABLE IF NOT EXISTS budget (id SERIAL PRIMARY KEY, item TEXT, amount TEXT, each_price TEXT, date TEXT)")
+
+    item = input("Nazwa przedmiotu: ")
+    amount = input("Ilość: ")
+    each_price = input("Cena za 1 sztukę: ")
+    date = str(datetime.date.today())
+    cursor.execute("INSERT INTO budget (item, amount, each_price, date) VALUES ('"+item+"','"+amount+"','"+each_price+"','"+date+"')")
+    connection.commit()
+    i += 1
+
+
+cursor = connection.cursor()
+cursor.execute("SELECT * FROM budget")
+result = cursor.fetchall()
+print(result)

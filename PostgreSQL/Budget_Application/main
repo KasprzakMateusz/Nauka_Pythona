@@ -1,0 +1,17 @@
+from db import connection
+
+cursor = connection.cursor()
+cursor.execute("SELECT amount, each_price, item, date FROM budget")
+results = cursor.fetchall()
+cost = 0
+for result in results:
+    total_price = float(result[0]) * float(result[1])
+    amount = result[0]
+    each_price = result[2]
+    item = result[1]
+    date = result[3]
+    print("Kupiłeś {}x {} w cenie {}zł za jedną sztukę, dnia {}".format(amount, each_price, item, date))
+    cost += total_price
+
+
+print("Za wszystkie zakupy zapłaciłeś: {:.4} złotych".format(cost))
