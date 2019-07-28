@@ -1,17 +1,31 @@
 from db import connection
 import datetime
 
+def len_checker(a):
+    if len(a) < 1:
+        print("Nic nie wpisałes!")
+        exit()
+
 print("Kalkulator Twojego Budżetu")
 
-how_many = int(input("Podaj ilość rzeczy które chcesz dodać: "))
+try:
+    how_many = int(input("Podaj ilość rzeczy które chcesz dodać: "))
+except:
+    print("Nic nie napisałeś!")
+
 i = 1
 while how_many >= i:
     cursor = connection.cursor()
     cursor.execute("CREATE TABLE IF NOT EXISTS budget (id SERIAL PRIMARY KEY, item TEXT, amount TEXT, each_price TEXT, date TEXT)")
 
     item = input("Nazwa przedmiotu: ")
+    len_checker(item)
     amount = input("Ilość: ")
+    len_checker(amount)
     each_price = input("Cena za 1 sztukę: ")
+    len_checker(each_price)
+
+    each_price = each_price.replace(',','.')
     date = str(datetime.date.today())
     cursor.execute("INSERT INTO budget (item, amount, each_price, date) VALUES ('"+item+"','"+amount+"','"+each_price+"','"+date+"')")
     connection.commit()
