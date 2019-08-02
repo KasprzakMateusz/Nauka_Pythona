@@ -1,0 +1,7 @@
+from game import *
+
+name = input("Login: ")
+password = input("Hasło: ")
+login = Login(name, password)
+
+read_statistics(login.log())
