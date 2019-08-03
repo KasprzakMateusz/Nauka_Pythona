@@ -1,7 +1,30 @@
 from game import *
 
-name = input("Login: ")
-password = input("Hasło: ")
-login = Login(name, password)
+create_table()
 
-read_statistics(login.log())
+choose = input("Jeśli chcesz sprawdzić surowce, wciśnij 1 \n"
+               "Jeśli chcesz dodać użytkownika wciśnij 2 \n"
+               "Jeśli chcesz zacząć wydobywać surowce, wciśnij 3")
+
+
+if choose == "1":
+    name = input("Login: ")
+    password = input("Hasło: ")
+    login = Login(name, password)
+    build = Builds(login.log())
+
+    read_statistics(login.log())
+    build.build()
+
+
+elif choose == "2":
+    name = input("Nick: ")
+    password = input("Hasło: ")
+    fill_table(name,password)
+
+
+elif choose == "3":
+    timer()
+
+else:
+    print("Zła wartość")

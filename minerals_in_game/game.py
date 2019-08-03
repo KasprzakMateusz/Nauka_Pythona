@@ -2,51 +2,48 @@ from db import conn
 import datetime
 import time
 
-class test:
-    storage = 1
-    def login():
-        log_in = input("Login: ")
-        password = input("Hasło: ")
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, login, haslo FROM game")
-        result = cursor.fetchall()
-        for x in result:
-            if x[1] == log_in and x[2] == password:
-                storage = x[0]
-                print(storage)
-                break
-            else:
-                None
-
+cursor = conn.cursor()
 class Login:
     def __init__(self, name, password):
         self.name = name
         self.password = password
+        self.my_id = None
 
     def log(self):
-        cursor = conn.cursor()
-        cursor.execute("SELECT id, login, haslo FROM game")
+        cursor.execute("SELECT id, login, password FROM user_game")
         result = cursor.fetchall()
         for x in result:
             if x[1] == self.name and x[2] == self.password:
-                storage = x[0]
-                return(storage)
+                self.my_id = x[0]
+                return self.my_id
                 break
             else:
                 None
 
 
 def create_table():
-    cursor = conn.cursor()
-    cursor.execute("CREATE TABLE IF NOT EXISTS game (id SERIAL PRIMARY KEY, login TEXT, haslo TEXT, metal TEXT, kamien TEXT, hel3 TEXT, zlom TEXT, zloto TEXT, krzem TEXT, premium TEXT)")
+    cursor.execute("CREATE TABLE IF NOT EXISTS user_game "
+                   "(id SERIAL PRIMARY KEY, "
+                   "login TEXT, "
+                   "password TEXT, "
+                   "metal TEXT, "
+                   "stone TEXT, "
+                   "hel3 TEXT, "
+                   "rubbish TEXT, "
+                   "gold TEXT, "
+                   "silicon TEXT, "
+                   "premium TEXT,"
+                   "experience TEXT)")
+
+    cursor.execute("CREATE TABLE IF NOT EXISTS builds "
+                   "(id TEXT, "
+                   "name_1 TEXT, "
+                   "name_2 TEXT)")
     conn.commit()
-    cursor.close()
 
 
-def fill_table():
-    cursor = conn.cursor()
-    name = "M216"
-    passwd = "123"
+
+def fill_table(name, passwd):
     metal = "1"
     stone = "5"
     hel3 = "8"
@@ -55,26 +52,31 @@ def fill_table():
     silicon = "0"
     premium = str(datetime.date(2019,8,12))
 
-    cursor.execute("INSERT INTO game (login, haslo, metal, kamien, hel3, zlom, zloto, krzem, premium) VALUES "
-                   "('"+name+"','"+passwd+"','"+metal+"','"+stone+"','"+hel3+"','"+rubbish+"','"+gold+"','"+silicon+"','"+premium+"')")
+    cursor.execute("INSERT INTO user_game (login, password, metal, stone, hel3, rubbish, gold, silicon, premium, experience) VALUES "
+                   "('"+name+"','"+passwd+"','"+metal+"','"+stone+"','"+hel3+"','"+rubbish+"','"+gold+"','"+silicon+"','"+premium+"','0')")
     conn.commit()
 
 
 def read_statistics(x):
-    cursor = conn.cursor()
-    cursor.execute("SELECT * FROM game")
+    now_date = datetime.date.today()
+    cursor.execute("SELECT * FROM user_game")
     all_information = cursor.fetchall()
     for information in all_information:
         if x == information[0]:
-            print("Nick: {}, ID: {} \n"
-                  "Twoje surowce: \nMetal: {:.4} \nKamień: {} \nHel3: {} \nZłom: {} \nZłoto: {} \nKrzem: {} \n\n"
-                  "Twoje premium jest aktywne do: {}\n".format(information[1],information[0],information[3],information[4],information[5],information[6],information[7],information[8],information[9]))
+            print(f'Nick: {information[1]}, ID: {information[0]} \n'
+                  f'Twoje surowce: \nMetal: {information[3]} \nKamień: {information[4]} \nHel3: {information[5]} \nZłom: {information[6]} \nZłoto: {information[7]} \nKrzem: {information[8]}\n\n '
+                  f'Twoje premium jest aktywne do: {information[9]}')
+
+            datetime_object = datetime.datetime.strptime(information[9], "%Y-%m-%d").date()
+            print(f'Aktywne do: {datetime_object}')
+            print(f'Dziś jest: {now_date}')
+            now_date = datetime_object - now_date
+            print(f'Pozostało {now_date} dni premium')
             break
 
 
 def materials_mining():
-    cursor = conn.cursor()
-    cursor.execute("SELECT metal, id FROM game")
+    cursor.execute("SELECT metal, id FROM user_game")
     metal_db = cursor.fetchall()
     for x in metal_db:
         metal_value = 0.2
@@ -89,3 +91,27 @@ def timer():
         materials_mining()
 
 
+class Builds:
+    def __init__(self,id):
+        self.id = id
+        self.name_1 = 0
+        self.name_2 = 0
+
+    def build(self):
+        cursor.execute("SELECT * FROM builds")
+        result = cursor.fetchall()
+
+        if not result:
+            cursor.execute("INSERT INTO builds (id, name_1, name_2) VALUES ('" + str(self.id) + "','0','0')")
+            conn.commit()
+
+        else:
+            for x in result:
+                if int(x[0]) == self.id:
+                    self.name_1 = x[1]
+                    self.name_2 = x[2]
+                break
+            else:
+                print("erroro")
+                cursor.execute("INSERT INTO builds (id, name_1, name_2) VALUES ('" + str(self.id) + "','0','0')")
+                conn.commit()

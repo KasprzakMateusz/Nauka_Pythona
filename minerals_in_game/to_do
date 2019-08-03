@@ -1,0 +1,14 @@
+[V] Logowanie: obiektowo
+[V] Premium w dniach
+[V] Nowa tabela (builds) podczas rejestracji
+[] budynek jako obiekt
+   Właściwości budynku
+   - Nazwa
+   - Poziom budynku
+   - Czas budowy
+   - Koszt budowy:
+        metal
+        kamień
+        złoto
+        silicon
+   - Doświadczenie za wybudowanie
