@@ -4,4 +4,9 @@ k = 9
 
 l =  'm'
 
-o = 8
+o = 3333
+
+y = "t"
+
+def r:
+    print(u)
