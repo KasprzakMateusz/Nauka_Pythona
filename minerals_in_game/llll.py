@@ -1,12 +1,8 @@
 
 
-k = 9
-
-l =  'm'
-
-er = 8
-
+def u:
+    print("u")
 y = "t"
 
 def r:
-    print(u)
+    print("u")
