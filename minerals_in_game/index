@@ -11,8 +11,8 @@ if choose == "1":
     name = input("Login: ")
     password = input("Hasło: ")
     login = Login(name, password)
-    build = Builds(login.log())
 
+    build = Builds(login.log())
     read_statistics(login.log())
     build.build()
 

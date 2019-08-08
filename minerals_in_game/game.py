@@ -56,6 +56,21 @@ def fill_table(name, passwd):
                    "('"+name+"','"+passwd+"','"+metal+"','"+stone+"','"+hel3+"','"+rubbish+"','"+gold+"','"+silicon+"','"+premium+"','0')")
     conn.commit()
 
+class Surowce:
+    def __init__(self, id_game):
+        self.name = "No one"
+        self.id_game = id_game
+    def sur(self):
+        cursor.execute("SELECT * FROM user_game")
+        all_inf = cursor.fetchall()
+        for x in all_inf:
+            if str(self.id_game) == str(x[0]):
+                self.id = x[0]
+                self.name = x[1]
+                self.metal = x[3]
+            else:
+                print("co jest")
+
 
 def read_statistics(x):
     now_date = datetime.date.today()
@@ -72,6 +87,14 @@ def read_statistics(x):
             print(f'Dziś jest: {now_date}')
             now_date = datetime_object - now_date
             print(f'Pozostało {now_date} dni premium')
+
+            info = f'Nick: {information[1]}, ID: {information[0]} \n' \
+                   f'Twoje surowce: \nMetal: {information[3]} \nKamień: {information[4]} \nHel3: {information[5]} \nZłom: {information[6]} \nZłoto: {information[7]} \nKrzem: {information[8]}\n\n' \
+                   f'Twoje premium jest aktywne do: {information[9]} \n' \
+                   f'Dziś jest: {now_date} \n' \
+                   f'Pozostało {now_date} dni premium'
+
+            return info
             break
 
 
