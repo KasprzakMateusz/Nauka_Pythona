@@ -13,21 +13,32 @@ def refuel():
     message_boxes.delete(0.0, END)
     refuel = Tk()
     refuel.title("Dodaj tankowanie")
-    refuel.geometry("300x150")
+    refuel.geometry("300x170")
 
-    Label(refuel, text="Litry: ").grid(row=1,column=0,pady=5)
-    Label(refuel, text="Cena: ").grid(row=2,column=0)
-
-    Entry(refuel, width=20).grid(row=1, column=1)
-    Entry(refuel, width=20).grid(row=2, column=1)
 
     Radiobutton(refuel, text="Diesel", value=1).grid(row=0, column=0)
     Radiobutton(refuel, text="Benzyna", value=2).grid(row=0, column=1)
     Radiobutton(refuel, text="Gaz", value=3).grid(row=0, column=2)
+
+    Label(refuel, text="Litry: ").grid(row=1, column=0, pady=5)
+    Label(refuel, text="Cena: ").grid(row=2, column=0, pady=5)
+    Label(refuel, text="Data: ").grid(row=3, column=0, pady=5)
+
+    Entry(refuel, width=20).grid(row=1, column=1)
+    Entry(refuel, width=20).grid(row=2, column=1)
+    Entry(refuel, width=20).grid(row=3, column=1)
+
+
+
+    # q = code.Queries()
+    #
+    # fills = (fuel_type, fuel_amount, price_per_liter, refueling_date)
+    # q.add_refueling(connection, fills)
+
     def save():
         refuel.destroy()
 
-    Button(refuel, text="Zapisz", command=save, width=15).grid(row=3, column=1, pady=10)
+    Button(refuel, text="Zapisz", command=save, width=15).grid(row=4, column=1, pady=10)
     refuel.mainloop()
 
 def stats():
@@ -35,12 +46,16 @@ def stats():
     message_box.insert(END, "Statystyki tankowania")
     message_boxes.delete(0.0, END)
     q = code.Queries()
-    message_boxes.insert(END, q.show_db(q.connection))
+    message_boxes.insert(END, q.sum_of_refuel(q.connection))
+
 def history():
     message_box.delete(first=0, last=100)
     message_box.insert(END, "Historia tankowania")
     message_boxes.delete(0.0, END)
-    message_boxes.insert(END, "History")
+    q = code.Queries()
+    for i in q.show_db(q.connection):
+        message_boxes.insert(END, i)
+
 def close():
     window.destroy()
     exit()

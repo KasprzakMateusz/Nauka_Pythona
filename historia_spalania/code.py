@@ -38,11 +38,11 @@ class Queries:
         conn = connection.cursor()
         conn.execute(ask)
         result = conn.fetchall()
+        list = []
         for i in result:
-            print(f'Rodzaj paliwa: {i[0]} \nIlość zatankowanego paliwa: {i[1]} \nCena za litr: {i[2]} \nData Tankowania: {i[3]}')
-            print("-"*30)
-            blach = f'Rodzaj paliwa: {i[0]} \nIlość zatankowanego paliwa: {i[1]} \nCena za litr: {i[2]} \nData Tankowania: {i[3]}'
-            return blach
+            history = f'Rodzaj paliwa: {i[0]} \nIlość zatankowanego paliwa: {i[1]} \nCena za litr: {i[2]} \nData Tankowania: {i[3]}\n\n'
+            list.append(history)
+        return list
 
     def sum_of_refuel(self, connection):
         all_fuel = 0
@@ -53,8 +53,7 @@ class Queries:
         for i in result:
             all_fuel = all_fuel + int(i[0])
             all_money = all_money + (int(i[0]) * int(i[1]))
-        print(f'Ilość zatankowanego paliwa: {all_fuel}')
-        print(f'Ilość zapłaconych PLNów: {all_money}')
+        return f'Ilość zatankowanego paliwa: {all_fuel} Litrów \nIlość zapłaconych PLNów: {all_money} Zł'
 
 
 
@@ -110,4 +109,4 @@ def main_app():
 
 
 if __name__ == "__main__":
-    main_app()
+    pass
