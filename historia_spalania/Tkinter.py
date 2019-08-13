@@ -8,38 +8,44 @@ window.resizable("false", "false")
 
 
 def refuel():
+    re_fuel = Toplevel(window)
+
     message_box.delete(first=0, last=100)
     message_box.insert(END, "Dodawanie tankowania...")
     message_boxes.delete(0.0, END)
-    refuel = Tk()
-    refuel.title("Dodaj tankowanie")
-    refuel.geometry("300x170")
 
 
-    Radiobutton(refuel, text="Diesel", value=1).grid(row=0, column=0)
-    Radiobutton(refuel, text="Benzyna", value=2).grid(row=0, column=1)
-    Radiobutton(refuel, text="Gaz", value=3).grid(row=0, column=2)
+    var = IntVar()
+    var.set(1)
 
-    Label(refuel, text="Litry: ").grid(row=1, column=0, pady=5)
-    Label(refuel, text="Cena: ").grid(row=2, column=0, pady=5)
-    Label(refuel, text="Data: ").grid(row=3, column=0, pady=5)
-
-    Entry(refuel, width=20).grid(row=1, column=1)
-    Entry(refuel, width=20).grid(row=2, column=1)
-    Entry(refuel, width=20).grid(row=3, column=1)
-
-
-
-    # q = code.Queries()
-    #
-    # fills = (fuel_type, fuel_amount, price_per_liter, refueling_date)
-    # q.add_refueling(connection, fills)
+    re_fuel.title("Dodaj tankowanie")
+    re_fuel.geometry("300x170")
 
     def save():
-        refuel.destroy()
+        print("Selection:", var.get())
+        test = f'Litry: {first.get()} \nCena: {second.get()} \nData: {third.get()}'
+        message_boxes.delete(0.0, END)
+        message_boxes.insert(END, test)
+        re_fuel.destroy()
 
-    Button(refuel, text="Zapisz", command=save, width=15).grid(row=4, column=1, pady=10)
-    refuel.mainloop()
+    Radiobutton(re_fuel, text="Diesel", variable=var, value=1).grid(row=6, column=0)
+    Radiobutton(re_fuel, text="Benzyna", variable=var, value=2).grid(row=6, column=1)
+    Radiobutton(re_fuel, text="Gaz", variable=var, value=3).grid(row=6, column=2)
+
+    Label(re_fuel, text="Litry: ").grid(row=1, column=0, pady=5)
+    Label(re_fuel, text="Cena: ").grid(row=2, column=0, pady=5)
+    Label(re_fuel, text="Data: ").grid(row=3, column=0, pady=5)
+
+    first = Entry(re_fuel, width=20)
+    first.grid(row=1, column=1)
+    second = Entry(re_fuel, width=20)
+    second.grid(row=2, column=1)
+    third = Entry(re_fuel, width=20)
+    third.grid(row=3, column=1)
+
+    Button(re_fuel, text="Zapisz", command=save, width=15).grid(row=4, column=1, pady=10)
+    re_fuel.mainloop()
+
 
 def stats():
     message_box.delete(first=0, last=100)
@@ -47,6 +53,7 @@ def stats():
     message_boxes.delete(0.0, END)
     q = code.Queries()
     message_boxes.insert(END, q.sum_of_refuel(q.connection))
+
 
 def history():
     message_box.delete(first=0, last=100)
@@ -56,9 +63,12 @@ def history():
     for i in q.show_db(q.connection):
         message_boxes.insert(END, i)
 
+
 def close():
     window.destroy()
     exit()
+
+
 
 # Frames
 top_frame = Frame(window, borderwidth=2, pady=5)
@@ -93,3 +103,4 @@ message_boxes = Text(bottom_frame, height=5,width=60)
 message_boxes.grid(row=2, column=1, pady=10)
 
 window.mainloop()
+

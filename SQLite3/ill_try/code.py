@@ -22,6 +22,7 @@ class Quires:
 def main():
     db_file = "sql.db"
     connection = connect(db_file)
+
     q = Quires()
     q.first_table()
 
