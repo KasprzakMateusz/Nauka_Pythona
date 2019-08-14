@@ -23,11 +23,11 @@ class Queries:
 
     def create_table(self):
         self.create_table_fuel_usage = '''CREATE TABLE IF NOT EXISTS fuel_usage (fuel_type text, fuel_amount text, 
-                                        price_per_liter text, refueling_date text)'''
+                                        price_per_liter text, refueling_date text, mile_age text, full text)'''
 
     def add_refueling(self, connection, fills):
         self.refueling = '''INSERT INTO fuel_usage (fuel_type, fuel_amount, 
-                            price_per_liter, refueling_date) VALUES (?,?,?,?)'''
+                            price_per_liter, refueling_date, mile_age, full) VALUES (?,?,?,?,?,?)'''
         conn = connection.cursor()
         conn.execute(self.refueling, fills)
         connection.commit()
