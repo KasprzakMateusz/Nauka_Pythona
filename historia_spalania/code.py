@@ -9,7 +9,6 @@ def connect(db_file):
         print("Błąd bazy danych")
 
 
-
 class Queries:
     db_file = "sql.db"
     connection = connect(db_file)
