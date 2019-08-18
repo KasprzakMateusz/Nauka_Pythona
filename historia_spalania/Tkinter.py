@@ -17,6 +17,7 @@ window.resizable("false", "false")
 
 
 # New Window
+# Adding Refuel
 def refuel():
     re_fuel = Toplevel(window)
     message_box.delete(first=0, last=100)
@@ -55,7 +56,10 @@ def refuel():
             fills = (fuel, str(liter.get()).replace(',', '.'), str(price.get()).replace(',', '.'),
                      date.get(), mile_age.get(), full)
             q = code.Queries()
-            q.add_refueling(q.connection, fills)
+            if q.checker(mile_age.get()) and q.checker(liter.get()) and q.checker(price.get()):
+                q.add_refueling(q.connection, fills)
+            else:
+                messagebox.showinfo("Błą", "Nie wypełniłeś wszystkich okien!")
 
             message_boxes.delete(0.0, END)
             message_boxes.insert(END, test)

@@ -37,11 +37,11 @@ class Queries:
         conn = connection.cursor()
         conn.execute(ask)
         result = conn.fetchall()
-        list = []
+        list1 = []
         for i in result:
-            history = f'Rodzaj paliwa: {i[0]} \nIlość zatankowanego paliwa: {i[1]} \nCena za litr: {i[2]} \nData Tankowania: {i[3]}\n\n'
-            list.append(history)
-        return list
+            history = f'Rodzaj paliwa: {i[0]} \nIlość zatankowanego paliwa: {i[1]} \nCena za litr: {i[2]} \nData Tankowania: {i[3]} \nPrzebieg: {i[4]} \nTankowanie do pełna: {i[5]} \n\n'
+            list1.append(history)
+        return list1
 
     def sum_of_refuel(self, connection):
         all_fuel = 0
@@ -50,9 +50,17 @@ class Queries:
         conn.execute("SELECT fuel_amount, price_per_liter FROM fuel_usage")
         result = conn.fetchall()
         for i in result:
-            all_fuel = all_fuel + int(i[0])
-            all_money = all_money + (int(i[0]) * int(i[1]))
-        return f'Ilość zatankowanego paliwa: {all_fuel} Litrów \nIlość zapłaconych PLNów: {all_money} Zł'
+            all_fuel = all_fuel + float(i[0])
+            all_money = all_money + (float(i[0]) * float(i[1]))
+        return f'Ilość zatankowanego paliwa: {all_fuel} Litrów \nIlość zapłaconych PLNów: {round(all_money, 2)} Zł'
+
+    def checker(self, par):
+        try:
+            float(par)
+            return True
+        except ValueError:
+            return False
+
 
 
 
