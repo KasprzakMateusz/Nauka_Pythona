@@ -3,32 +3,25 @@ class Function:
         self.ear_one = earnings_one
         self.ear_two = earnings_two
         self.exp = expenses
-        self._check()
+        self._percent()
 
-    def _check(self):
-        if self.ear_one > self.ear_two:
-            division = self.ear_two / self.ear_one
-        elif self.ear_one < self.ear_two:
-            division = self.ear_one / self.ear_two
-        else:
-            print(f'Musicie zapłacić po równo! \nPo: {self.exp / 2} zł')
-            exit()
-        return division
+    def _percent(self):
+        ear = self.ear_one + self.ear_two
+        self.ear1 = self.ear_one / ear
+        self.ear2 = self.ear_two / ear
 
-    def calc1(self):
-        percent = self._check()
-        s = self.ear_one * (1 - percent)
-        return s
+    def first_person(self):
+        xs = self.exp * self.ear1
+        return xs
 
-    def calc2(self):
-        percent = self._check()
-        s = percent * self.ear_two
-        return s
+    def second_person(self):
+        xs = self.exp * self.ear2
+        return xs
 
 
-x = Function(3500, 2100, 2100)
-print(x.calc1())
-print(x.calc2())
+x = Function(3500, 3400, 2100)
+print(x.first_person())
+print(x.second_person())
 
 
 
