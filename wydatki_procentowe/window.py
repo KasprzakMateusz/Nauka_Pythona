@@ -32,8 +32,8 @@ def send():
     pr = code.Function(float(e2.get()), float(e3.get()), float(e1.get()))
 
     message_window.delete(0.0, END)
-    message_window.insert(END, f'Osoba pierwsza: {pr.calc2()}\n')
-    message_window.insert(END, f'Osoba druga: {pr.calc1()}')
+    message_window.insert(END, f'Osoba pierwsza: {pr.first_person()}\n')
+    message_window.insert(END, f'Osoba druga: {pr.second_person()}')
 
 
 Button(w_middle, text="Oblicz", width="10", command=send).grid(row=4, column=2, sticky=W)
