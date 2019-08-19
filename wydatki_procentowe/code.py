@@ -19,9 +19,9 @@ class Function:
         return xs
 
 
-x = Function(3500, 3400, 2100)
-print(x.first_person())
-print(x.second_person())
+# x = Function(3500, 3400, 2100)
+# print(x.first_person())
+# print(x.second_person())
 
 
 

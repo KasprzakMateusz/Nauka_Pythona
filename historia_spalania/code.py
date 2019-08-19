@@ -41,7 +41,7 @@ class Queries:
         for i in result:
             history = f'Rodzaj paliwa: {i[0]} \nIlość zatankowanego paliwa: {i[1]} \nCena za litr: {i[2]} \nData Tankowania: {i[3]} \nPrzebieg: {i[4]} \nTankowanie do pełna: {i[5]} \n\n'
             list1.append(history)
-        return list1
+        return result
 
     def sum_of_refuel(self, connection):
         all_fuel = 0

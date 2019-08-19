@@ -1,5 +1,6 @@
 from tkinter import *
 from tkinter import messagebox
+from tkinter.ttk import Treeview
 from historia_spalania import code
 
 
@@ -33,6 +34,8 @@ def refuel():
     re_fuel.title("Dodaj tankowanie")
     re_fuel.geometry("300x250")
 
+    def exit_window():
+        re_fuel.destroy()
     def save():
 
         if var1.get() == 1:
@@ -53,17 +56,20 @@ def refuel():
             test = f'Rodzaj paliwa: {fuel} \nPrzebieg: {mile_age.get()} \nLitry: {liter.get()} ' \
                    f'\nCena: {price.get()} \nData: {date.get()} \nDo pełna?: {full}'
 
-            fills = (fuel, str(liter.get()).replace(',', '.'), str(price.get()).replace(',', '.'),
-                     date.get(), mile_age.get(), full)
+            liters = str(liter.get()).replace(',', '.')
+            prices = str(price.get()).replace(',', '.')
+
+            fills = (fuel, liters, prices, date.get(), mile_age.get(), full)
+
             q = code.Queries()
-            if q.checker(mile_age.get()) and q.checker(liter.get()) and q.checker(price.get()):
+            if q.checker(mile_age.get()) and q.checker(liters) and q.checker(prices):
                 q.add_refueling(q.connection, fills)
             else:
                 messagebox.showinfo("Błą", "Nie wypełniłeś wszystkich okien!")
 
             message_boxes.delete(0.0, END)
             message_boxes.insert(END, test)
-            re_fuel.destroy()
+            # re_fuel.destroy()
         else:
             messagebox.showinfo("Error", "Nie podałeś rodzaju paliwa!")
 
@@ -85,9 +91,11 @@ def refuel():
     price = Entry(re_fuel, width=20)
     price.grid(row=3, column=1)
     date = Entry(re_fuel, width=20)
+    date.insert(END, 'rrrr-mm-dd')
     date.grid(row=4, column=1)
 
-    Button(re_fuel, text="Zapisz", command=save, width=15).grid(row=5, column=1, pady=10)
+    Button(re_fuel, text="Zapisz", command=save, width=15).grid(row=5, column=0, pady=10)
+    Button(re_fuel, text="Zamknij", command=exit_window, width=15).grid(row=5, column=1, pady=10)
     re_fuel.mainloop()
 
 
@@ -100,6 +108,43 @@ def stats():
 
 
 def history():
+    new_window = Toplevel(window)
+    table = Treeview(new_window)
+    table['columns'] = ('fuel', 'price', 'liter', 'mile_age', 'full', 'data')
+    table.heading("#0", text="Nr.")
+    table.column("#0", width=50, anchor='center')
+
+    table.heading("fuel", text="Paliwo")
+    table.column("fuel", width=100, anchor='center')
+
+    table.heading("price", text="Cena za Litr")
+    table.column("price", width=100, anchor='center')
+
+    table.heading("liter", text="Litry")
+    table.column("liter", width=100, anchor='center')
+
+    table.heading("mile_age", text="Przebieg")
+    table.column("mile_age", width=100, anchor='center')
+
+    table.heading("full", text="Do pełna")
+    table.column("full", width=100, anchor='center')
+
+    table.heading("data", text="Data")
+    table.column("data", width=100, anchor='center')
+
+    table.grid()
+    tw = table
+
+    q = code.Queries()
+    ia = 0
+    for i in q.show_db(q.connection):
+        ia += 1
+        tw.insert('', 'end', text=ia, value=(i[0], i[2] + 'zł', i[1], i[4], i[5], i[3]))
+
+    new_window.mainloop()
+
+
+
     message_box.delete(first=0, last=100)
     message_box.insert(END, "Historia tankowania")
     message_boxes.delete(0.0, END)

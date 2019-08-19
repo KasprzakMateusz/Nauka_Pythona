@@ -5,13 +5,13 @@ from wydatki_procentowe import code
 
 window = Tk()
 w_top = Frame(window)
-w_top.grid(row=0, column=0, pady=2)
+w_top.grid(row=0, column=0, pady=2, padx=2)
 w_middle = Frame(window)
-w_middle.grid(row=1, column=0, pady=2)
+w_middle.grid(row=1, column=0, pady=2, padx=2)
 w_bottom = Frame(window)
-w_bottom.grid(row=2, column=0, pady=2)
+w_bottom.grid(row=2, column=0, pady=2, padx=2)
 
-window.geometry("350x200")
+window.geometry("330x190")
 window.title("Kalkulator podziału rat")
 
 Label(w_middle, text="Kwota do podziału ").grid(row=1, column=1, sticky=E)
@@ -32,8 +32,8 @@ def send():
     pr = code.Function(float(e2.get()), float(e3.get()), float(e1.get()))
 
     message_window.delete(0.0, END)
-    message_window.insert(END, f'Osoba pierwsza: {pr.first_person()}\n')
-    message_window.insert(END, f'Osoba druga: {pr.second_person()}')
+    message_window.insert(END, f'Osoba pierwsza: {round(pr.first_person(),2)} zł\n')
+    message_window.insert(END, f'Osoba druga: {round(pr.second_person(),2)} zł')
 
 
 Button(w_middle, text="Oblicz", width="10", command=send).grid(row=4, column=2, sticky=W)
